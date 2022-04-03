@@ -1,0 +1,4 @@
+.env
+/public/images/recipes/*
+!/public/images/recipes/README.md
+/node_modules
