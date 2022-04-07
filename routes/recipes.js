@@ -335,7 +335,12 @@ async function deleteRecipeImage(req, res){
 
     }
 
+  }else{
+    res.send({
+      message: 'Successfully update user'
+    });
   }
+
 
 }
 
