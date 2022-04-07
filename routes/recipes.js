@@ -145,7 +145,7 @@ async function uploadToCloud(req, res, next){
     const blobStream = blob.createWriteStream();
     
     blobStream.on('error', err => {
-      console.log(error);
+      console.log(err);
     });
   
     blobStream.on('finish', () => {
