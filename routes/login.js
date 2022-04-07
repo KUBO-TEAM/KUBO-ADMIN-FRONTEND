@@ -34,7 +34,7 @@ async function loginUser(req, res, next){
         if(bcrypt.compareSync(password, user.password)){
             
             res.send({
-                message: 'Successfully login user...',
+                message: 'Welcome back admin!',
                 token : generateUserToken(user),
             });
         }else{
