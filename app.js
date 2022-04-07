@@ -13,7 +13,6 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -34,5 +33,10 @@ app.use((req, res, next) => {
 app.use('/api/recipes', recipesRouter);
 app.use('/api/login', loginRouter);
 
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 module.exports = app;
