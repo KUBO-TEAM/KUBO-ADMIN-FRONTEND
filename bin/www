@@ -42,6 +42,7 @@ async function createSuperAdmin(){
     User.create({
       email: 'admin@admin.com',
       password: bcrypt.hashSync('12345', 8),
+      is_admin: true,
     });
   }
 

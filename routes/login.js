@@ -1,6 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
-const { generateUserToken } = require('../bin/validators');
+const { generateUserToken } = require('../helpers/validators');
 const { check, validationResult } = require('express-validator');
 
 const User = require('../models/user.model');
@@ -28,7 +28,7 @@ async function loginUser(req, res, next){
     const {email, password} = req.body;
 
 
-    const user = await User.findOne({email});
+    const user = await User.findOne({email, is_admin: true});
 
     if(user){
         if(bcrypt.compareSync(password, user.password)){
