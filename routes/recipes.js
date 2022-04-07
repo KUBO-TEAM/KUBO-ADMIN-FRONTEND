@@ -148,7 +148,7 @@ async function uploadToCloud(req, res, next){
 
   if(bucket){
     const blob = bucket.file(Date.now() + '.png');
-    const blobStream = blob.createWriteStream();
+    const blobStream = blob.createWriteStream();  
     
     blobStream.on('error', err => {
       console.log(err);
@@ -212,7 +212,12 @@ async function deleteRecipe(req, res){
     const displayPhoto = `public/images/recipes/${fileName}`;
 
     if(bucket){
-      await bucket.file(fileName).delete();
+      const file = bucket.file(fileName);
+
+      file.exists().then(function(data) {
+          bucket.file(fileName).delete();
+      });
+
     }else{
       fs.stat(displayPhoto, function(err, stat){
         if(err === null){
