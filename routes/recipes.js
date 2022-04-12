@@ -16,12 +16,14 @@ let bucket = null;
 
 if(process.env.GCLOUD_STORAGE_BUCKET){
 
-  const path = require('path');
-
   const cloudStorage = new Storage({
-    keyFilename: path.join(__dirname, '../key.json'),
-    projectId: 'modern-tangent-332815',
+    projectId: process.env.GCLOUD_STORAGE_PROJECT_ID,
+    credentials:{
+      client_email: process.env.GCLOUD_STORAGE_CLIENT_EMAIL,
+      private_key: process.env.GCLOUD_STORAGE_PRIVATE_KEY,
+    }
   });
+
 
   bucket = cloudStorage.bucket(process.env.GCLOUD_STORAGE_BUCKET);
 }
