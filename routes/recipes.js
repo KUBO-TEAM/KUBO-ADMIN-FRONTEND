@@ -127,7 +127,15 @@ upload.single('displayPhoto'),
 check('name').not().isEmpty(),
 check('description').not().isEmpty(),
 check('reference').not().isEmpty(),
+check('course').not().isEmpty(),
+check('cuisine').not().isEmpty(),
+check('prep_time').not().isEmpty(),
+check('cook_time').not().isEmpty(),
+check('servings').not().isEmpty(),
+
+check('categories').not().isEmpty(),
 check('ingredients').not().isEmpty(),
+check('instructions').not().isEmpty(),
 
 (req, res, next) => {
   const errors = validationResult(req);
@@ -177,10 +185,11 @@ async function createRecipe(req, res){
 	const body = req.body;
 
 	const newRecipe = new Recipe({
-		name: body.name,
-		description: body.description,
-		reference: body.reference,
+    ...body,
+
 		ingredients: JSON.parse(body.ingredients),
+		instructions: JSON.parse(body.instructions),
+		categories: JSON.parse(body.categories),
 		displayPhoto: req.fileUrl,
 	});
 
@@ -250,7 +259,15 @@ upload.single('displayPhoto'),
 check('name').not().isEmpty(),
 check('description').not().isEmpty(),
 check('reference').not().isEmpty(),
+check('course').not().isEmpty(),
+check('cuisine').not().isEmpty(),
+check('prep_time').not().isEmpty(),
+check('cook_time').not().isEmpty(),
+check('servings').not().isEmpty(),
+
+check('categories').not().isEmpty(),
 check('ingredients').not().isEmpty(),
+check('instructions').not().isEmpty(),
 
 (req, res, next) => {
   const errors = validationResult(req);
@@ -275,7 +292,9 @@ async function updateRecipe(req, res, next){
   },{
     ...req.body,
 
+    categories: JSON.parse(req.body.categories),
     ingredients: JSON.parse(req.body.ingredients),
+    instructions: JSON.parse(req.body.instructions),
 
   });
 
