@@ -12,12 +12,6 @@ const {format} = require('util');
 /** Google Cloud storage setup */
 dotenv.config();
 
-
-console.log(process.env.GCLOUD_STORAGE_BUCKET);
-console.log(process.env.GCLOUD_STORAGE_PROJECT_ID);
-console.log(process.env.GCLOUD_STORAGE_CLIENT_EMAIL);
-console.log(process.env.GCLOUD_STORAGE_PRIVATE_KEY.replace(/\\n/gm, '\n'));
-
 let bucket = null;
 
 if(process.env.GCLOUD_STORAGE_BUCKET){
