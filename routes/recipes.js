@@ -318,8 +318,7 @@ async function deleteRecipeImage(req, res){
     const displayPhoto = `public/images/recipes/${fileName}`;
 
     if(bucket){
-      // await bucket.file(fileName).delete();
-      console.log('WTF?????? ', fileName);
+      bucket.file(fileName).delete();
       
       const blob = bucket.file(Date.now() + '.png');
       const blobStream = blob.createWriteStream();
