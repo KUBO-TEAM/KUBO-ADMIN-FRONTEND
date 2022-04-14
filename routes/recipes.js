@@ -13,6 +13,11 @@ const {format} = require('util');
 dotenv.config();
 
 
+console.log(process.env.GCLOUD_STORAGE_BUCKET);
+console.log(process.env.GCLOUD_STORAGE_PROJECT_ID);
+console.log(process.env.GCLOUD_STORAGE_CLIENT_EMAIL);
+console.log(process.env.GCLOUD_STORAGE_PRIVATE_KEY);
+
 let bucket = null;
 
 if(process.env.GCLOUD_STORAGE_BUCKET){
