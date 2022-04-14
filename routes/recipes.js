@@ -92,24 +92,20 @@ async function getRecipe(req, res){
 /** Get all the recipes */
 router.get('/',
 
-/** Validations */
-verifyUserToken,
-verifyAdmin,
-
 async function getAllRecipe(req, res){
 
   const recipes = await Recipe.find({});
 
   if(recipes){
 
-    res.send({
+    res.status(200).send({
       message: 'Successfully fetch recipes!',
       data: recipes,
     });
 
   }else{
 
-    res.status(401).send({
+    res.status(400).send({
       message: 'Cannot fetch recipes',
     });
 

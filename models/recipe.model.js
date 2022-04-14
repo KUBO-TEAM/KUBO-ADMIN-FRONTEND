@@ -7,9 +7,9 @@ const recipeSchema = new mongoose.Schema(
 
 		course: String,
 		cuisine: String,
-		prep_time: String,
-		cook_time: String,
-		servings: String,
+		prep_time: Number,
+		cook_time: Number,
+		servings: Number,
 
 		reference: String,
 
