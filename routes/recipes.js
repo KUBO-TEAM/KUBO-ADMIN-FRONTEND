@@ -338,14 +338,13 @@ async function deleteRecipeImage(req, res){
         req.recipe.displayPhoto = publicUrl;
         await req.recipe.save();
     
+        res.send({
+          message: 'Successfully update user'
+        });
 
       });
     
       blobStream.end(req.file.buffer);
-      
-      res.send({
-        message: 'Successfully update user'
-      });
       
     }else{
       fs.stat(displayPhoto, async function(err, stat){
