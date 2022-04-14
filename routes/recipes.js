@@ -12,6 +12,10 @@ const {format} = require('util');
 /** Google Cloud storage setup */
 dotenv.config();
 
+console.log(process.env.GCLOUD_STORAGE_PROJECT_ID);
+console.log(process.env.GCLOUD_STORAGE_CLIENT_EMAIL);
+console.log(process.env.GCLOUD_STORAGE_PRIVATE_KEY);
+
 let bucket = null;
 
 if(process.env.GCLOUD_STORAGE_BUCKET){
@@ -162,7 +166,6 @@ async function uploadToCloud(req, res, next){
     
     blobStream.on('error', err => {
       console.log(err);
-      console.log('TAE TO WTF???');
     });
   
     blobStream.on('finish', () => {
