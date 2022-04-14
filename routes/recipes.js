@@ -162,6 +162,7 @@ async function uploadToCloud(req, res, next){
     
     blobStream.on('error', err => {
       console.log(err);
+      console.log('TAE TO WTF???');
     });
   
     blobStream.on('finish', () => {
