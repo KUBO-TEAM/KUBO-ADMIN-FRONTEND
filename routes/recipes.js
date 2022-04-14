@@ -16,7 +16,7 @@ dotenv.config();
 console.log(process.env.GCLOUD_STORAGE_BUCKET);
 console.log(process.env.GCLOUD_STORAGE_PROJECT_ID);
 console.log(process.env.GCLOUD_STORAGE_CLIENT_EMAIL);
-console.log(process.env.GCLOUD_STORAGE_PRIVATE_KEY);
+console.log(process.env.GCLOUD_STORAGE_PRIVATE_KEY.replace(/\\n/gm, '\n'));
 
 let bucket = null;
 
@@ -26,7 +26,7 @@ if(process.env.GCLOUD_STORAGE_BUCKET){
     projectId: process.env.GCLOUD_STORAGE_PROJECT_ID,
     credentials:{
       client_email: process.env.GCLOUD_STORAGE_CLIENT_EMAIL,
-      private_key: process.env.GCLOUD_STORAGE_PRIVATE_KEY,
+      private_key: process.env.GCLOUD_STORAGE_PRIVATE_KEY.replace(/\\n/gm, '\n'),
     }
   });
 
