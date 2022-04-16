@@ -125,11 +125,8 @@ upload.single('displayPhoto'),
 check('name').not().isEmpty(),
 check('description').not().isEmpty(),
 check('reference').not().isEmpty(),
-check('course').not().isEmpty(),
-check('cuisine').not().isEmpty(),
 check('prep_time').not().isEmpty(),
 check('cook_time').not().isEmpty(),
-check('servings').not().isEmpty(),
 
 check('categories').not().isEmpty(),
 check('ingredients').not().isEmpty(),
@@ -181,9 +178,14 @@ async function uploadToCloud(req, res, next){
 async function createRecipe(req, res){
 
 	const body = req.body;
+  const { course, cuisine, servings} = body;
 
 	const newRecipe = new Recipe({
     ...body,
+
+    course: course ? course : undefined,
+    cuisine: cuisine ? cuisine : undefined,
+    servings: servings? servings  : undefined,
 
 		ingredients: JSON.parse(body.ingredients),
 		instructions: JSON.parse(body.instructions),
@@ -257,11 +259,8 @@ upload.single('displayPhoto'),
 check('name').not().isEmpty(),
 check('description').not().isEmpty(),
 check('reference').not().isEmpty(),
-check('course').not().isEmpty(),
-check('cuisine').not().isEmpty(),
 check('prep_time').not().isEmpty(),
 check('cook_time').not().isEmpty(),
-check('servings').not().isEmpty(),
 
 check('categories').not().isEmpty(),
 check('ingredients').not().isEmpty(),
