@@ -58,6 +58,32 @@ const upload = multer({
 
 });
 
+/** Get all the recipes */
+router.get('/',
+
+async function getAllRecipe(req, res){
+
+  const recipes = await Recipe.find({}).sort({createdAt: -1});
+
+  if(recipes){
+
+    res.status(200).send({
+      message: 'Successfully fetch recipes!',
+      data: recipes,
+    });
+
+  }else{
+
+    res.status(400).send({
+      message: 'Cannot fetch recipes',
+    });
+
+  }
+
+}
+
+);
+
 /** Get single recipe */
 router.get('/:id',
 
@@ -85,32 +111,6 @@ async function getRecipe(req, res){
     });
   }
   
-}
-
-);
-
-/** Get all the recipes */
-router.get('/',
-
-async function getAllRecipe(req, res){
-
-  const recipes = await Recipe.find({});
-
-  if(recipes){
-
-    res.status(200).send({
-      message: 'Successfully fetch recipes!',
-      data: recipes,
-    });
-
-  }else{
-
-    res.status(400).send({
-      message: 'Cannot fetch recipes',
-    });
-
-  }
-
 }
 
 );
