@@ -8,12 +8,11 @@ const router = express.Router();
 
 router.get('/detect',
 
-(req, res)=>{
-
+detect =(req, res)=>{
 
     /**
      * @author Eco
-     * Python Detection Script
+     * Python Detection
      * 
      * python 
      * detect.py 
@@ -24,13 +23,11 @@ router.get('/detect',
      * --framework tflite
      */
 
-    const AI_BACKEND_PATH = process.env.AI_BACKEND_PATH
-
     const detect = spawn('python',[
         `./ai_backend/detect.py`,
         `--weights=./ai_backend/tflite/yolov4-tiny-416.tflite`,
         `--image=./ai_backend/uploads/ampalaya.jpg `,
-        `--output=./ai_backend/results/result.png `,
+        `--output=./ai_backend/results/${Date.now()}.png `,
         `--framework=tflite`,
     ]);
 
