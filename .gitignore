@@ -2,3 +2,16 @@
 /public/images/recipes/*
 !/public/images/recipes/README.md
 /node_modules
+
+
+/ai_backend/uploads/*
+!/ai_backend/uploads/README.md
+
+/ai_backend/tensorflow/*
+!/ai_backend/tensorflow/README.md
+
+/ai_backend/results/*
+!/ai_backend/results/README.md
+
+/ai_backend/weights/*
+!/ai_backend/weights/README.md

@@ -6,6 +6,7 @@ const logger = require('morgan');
 
 const recipesRouter = require('./routes/recipes');
 const loginRouter = require('./routes/login');
+const aiRouter = require('./routes/ai');
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use((req, res, next) => {
 
 app.use('/api/recipes', recipesRouter);
 app.use('/api/login', loginRouter);
+app.use('/api/ai', aiRouter);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
