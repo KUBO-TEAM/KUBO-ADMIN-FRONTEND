@@ -58,11 +58,14 @@ detect =(req, res)=>{
         `--output=./public/ai_backend/results/${req.file.filename}`,
         `--framework=tflite`,
     ]);
+    
+    
+    const imageUrl = `${req.protocol}://${req.get('host')}/ai_backend/results/${req.file.filename}`;
 
     detect.stdout.on('data', (data)=>{
         res.send({
             message: 'Successfully detect ingredients',
-            imageUrl: 'http://localhost:3000/ai_backend/results/' + req.file.filename,
+            imageUrl,
         });
     });
 
