@@ -1,12 +1,40 @@
 const express = require('express');
 const { spawn } = require('child_process');
 const dotenv = require('dotenv');
+const { verifyAdmin, verifyUserToken } = require('../helpers/validators');
+const multer = require('multer');
 
 dotenv.config();
 
 const router = express.Router();
 
-router.get('/detect',
+let storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'public/ai_backend/uploads');
+    },
+  
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + ".png");
+    },
+});
+
+
+const upload = multer({ 
+    storage : storage,
+  
+    limits: {
+      fileSize: 5 * 1024 * 1024,
+    },
+  
+});
+
+router.post('/detect',
+
+upload.single('image'),
+
+/** Validators */
+verifyUserToken,
+verifyAdmin,
 
 detect =(req, res)=>{
 
@@ -26,13 +54,16 @@ detect =(req, res)=>{
     const detect = spawn('python',[
         `./ai_backend/detect.py`,
         `--weights=./ai_backend/tflite/yolov4-tiny-416.tflite`,
-        `--image=./ai_backend/uploads/ampalaya.jpg `,
-        `--output=./ai_backend/results/${Date.now()}.png `,
+        `--image=./public/ai_backend/uploads/${req.file.filename}`,
+        `--output=./public/ai_backend/results/${req.file.filename}`,
         `--framework=tflite`,
     ]);
 
     detect.stdout.on('data', (data)=>{
-        console.log(`stdout: ${data}`);
+        res.send({
+            message: 'Successfully detect ingredients',
+            imageUrl: 'http://localhost:3000/ai_backend/results/' + req.file.filename,
+        });
     });
 
     
@@ -44,10 +75,6 @@ detect =(req, res)=>{
         console.log(`child process exited with code ${code}`);
     });
 
-
-    res.send({
-        message: 'Successfully call detect!',
-    });
 },
 
 );

@@ -4,14 +4,14 @@
 /node_modules
 
 
-/ai_backend/uploads/*
-!/ai_backend/uploads/README.md
+/public/ai_backend/uploads/*
+!/public/ai_backend/uploads/README.md
 
 /ai_backend/tensorflow/*
 !/ai_backend/tensorflow/README.md
 
-/ai_backend/results/*
-!/ai_backend/results/README.md
+/public/ai_backend/results/*
+!/public/ai_backend/results/README.md
 
 /ai_backend/weights/*
 !/ai_backend/weights/README.md
