@@ -97,16 +97,16 @@ const weightUpload = multer({
 
 router.post('/update-model',
 
-// weightUpload.single('weight'),
+weightUpload.single('weight'),
 
 /** Validators */
-// verifyUserToken,
-// verifyAdmin,
+verifyUserToken,
+verifyAdmin,
 
-function test(req, res){
-    console.log('Testing purpose');
-    res.send({message: 'Testing purpose'});
-},
+// function test(req, res){
+//     console.log('Testing purpose');
+//     res.send({message: 'Testing purpose'});
+// },
 
 function convertToTensorflow(req, res, next){
 
