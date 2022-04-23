@@ -101,7 +101,7 @@ const weightUpload = multer({
 
 router.post('/update-model',
 
-weightUpload.single('weight'),
+// weightUpload.single('weight'),
 
 /** Validators */
 verifyUserToken,
