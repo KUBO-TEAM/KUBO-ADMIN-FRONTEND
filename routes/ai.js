@@ -103,73 +103,80 @@ weightUpload.single('weight'),
 verifyUserToken,
 verifyAdmin,
 
+function test(req, res){
+    convertWeights(req.user);
 
-function convertToTensorflow(req, res, next){
-
-    // python save_model.py --weights ./weights/yolov4-tiny.weights --output ./tensorflow/yolov4-tiny-416 --input_size 416 --model yolov4 --tiny --framework tflite
-
-
-    const convertToTensorflow = spawn('python',[
-        `./ai_backend/save_model.py`,
-        `--weights=./public/ai_backend/weights/yolov4-tiny.weights`,
-        `--output=./ai_backend/tensorflow/yolov4-tiny-416`,
-        `--input_size=416`,
-        `--model=yolov4`,
-        `--tiny`,
-        `--framework=tflite`,
-    ]);
-
-    convertToTensorflow.stdout.on('data', (data)=>{
-        console.log(`stdout: ${data}`);
-    });
-
-    
-    convertToTensorflow.stderr.on('data', (data)=>{
-        console.log(`stderr: ${data}`);
-    });
-    
-    convertToTensorflow.on('close', (code)=>{
-        console.log(`child process exited with code ${code}`);
-        next();
-    });
-
+    res.send({
+        message: 'Processing the conversion, wait 1 minute and refresh the page Thank you.'
+    })
 },
 
-function convertToTflite(req, res){
+// function convertToTensorflow(req, res, next){
 
-    const convertToTflite = spawn('python',[
-        `./ai_backend/convert_tflite.py`,
-        `--weights=./ai_backend/tensorflow/yolov4-tiny-416`,
-        `--output=./ai_backend/tflite/yolov4-tiny-416.tflite`,
-    ]);
+//     // python save_model.py --weights ./weights/yolov4-tiny.weights --output ./tensorflow/yolov4-tiny-416 --input_size 416 --model yolov4 --tiny --framework tflite
 
 
-    convertToTflite.stdout.on('data', (data)=>{
-        console.log(`stdout: ${data}`);
-    });
+//     const convertToTensorflow = spawn('python',[
+//         `./ai_backend/save_model.py`,
+//         `--weights=./public/ai_backend/weights/yolov4-tiny.weights`,
+//         `--output=./ai_backend/tensorflow/yolov4-tiny-416`,
+//         `--input_size=416`,
+//         `--model=yolov4`,
+//         `--tiny`,
+//         `--framework=tflite`,
+//     ]);
 
-    convertToTflite.stderr.on('data', (data)=>{
-        console.log(`stderr: ${data}`);
-    });
+//     convertToTensorflow.stdout.on('data', (data)=>{
+//         console.log(`stdout: ${data}`);
+//     });
+
     
-    convertToTflite.on('close', async(code)=>{
+//     convertToTensorflow.stderr.on('data', (data)=>{
+//         console.log(`stderr: ${data}`);
+//     });
+    
+//     convertToTensorflow.on('close', (code)=>{
+//         console.log(`child process exited with code ${code}`);
+//         next();
+//     });
 
-        const ai = new Ai({
-            email : req.user.email,
-            user_id : req.user._id,
-            model_name : 'yolov4-tiny-416',
-        });
+// },
 
-        await ai.save();
+// function convertToTflite(req, res){
 
-        console.log(`child process exited with code ${code}`);
+//     const convertToTflite = spawn('python',[
+//         `./ai_backend/convert_tflite.py`,
+//         `--weights=./ai_backend/tensorflow/yolov4-tiny-416`,
+//         `--output=./ai_backend/tflite/yolov4-tiny-416.tflite`,
+//     ]);
 
-        res.send({
-            message :'Successfully convert weights',
-        });
-    });
 
-},
+//     convertToTflite.stdout.on('data', (data)=>{
+//         console.log(`stdout: ${data}`);
+//     });
+
+//     convertToTflite.stderr.on('data', (data)=>{
+//         console.log(`stderr: ${data}`);
+//     });
+    
+//     convertToTflite.on('close', async(code)=>{
+
+//         const ai = new Ai({
+//             email : req.user.email,
+//             user_id : req.user._id,
+//             model_name : 'yolov4-tiny-416',
+//         });
+
+//         await ai.save();
+
+//         console.log(`child process exited with code ${code}`);
+
+//         res.send({
+//             message :'Successfully convert weights',
+//         });
+//     });
+
+// },
 
 );
 
