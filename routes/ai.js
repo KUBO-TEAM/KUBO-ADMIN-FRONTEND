@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const { verifyAdmin, verifyUserToken } = require('../helpers/validators');
 const multer = require('multer');
 const Ai = require('../models/ai.model');
+const { convertWeights } = require('../helpers/ai-converters');
 
 dotenv.config();
 
