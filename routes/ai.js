@@ -111,30 +111,33 @@ function convertToTensorflow(req, res, next){
 
     // python save_model.py --weights ./weights/yolov4-tiny.weights --output ./tensorflow/yolov4-tiny-416 --input_size 416 --model yolov4 --tiny --framework tflite
 
+    console.log('testerol');
 
-    const convertToTensorflow = spawn('python',[
-        `./ai_backend/save_model.py`,
-        `--weights=./public/ai_backend/weights/yolov4-tiny.weights`,
-        `--output=./ai_backend/tensorflow/yolov4-tiny-416`,
-        `--input_size=416`,
-        `--model=yolov4`,
-        `--tiny`,
-        `--framework=tflite`,
-    ]);
+    res.send({message: 'test '});
 
-    convertToTensorflow.stdout.on('data', (data)=>{
-        console.log(`stdout: ${data}`);
-    });
+    // const convertToTensorflow = spawn('python',[
+    //     `./ai_backend/save_model.py`,
+    //     `--weights=./public/ai_backend/weights/yolov4-tiny.weights`,
+    //     `--output=./ai_backend/tensorflow/yolov4-tiny-416`,
+    //     `--input_size=416`,
+    //     `--model=yolov4`,
+    //     `--tiny`,
+    //     `--framework=tflite`,
+    // ]);
+
+    // convertToTensorflow.stdout.on('data', (data)=>{
+    //     console.log(`stdout: ${data}`);
+    // });
 
     
-    convertToTensorflow.stderr.on('data', (data)=>{
-        console.log(`stderr: ${data}`);
-    });
+    // convertToTensorflow.stderr.on('data', (data)=>{
+    //     console.log(`stderr: ${data}`);
+    // });
     
-    convertToTensorflow.on('close', (code)=>{
-        console.log(`child process exited with code ${code}`);
-        next();
-    });
+    // convertToTensorflow.on('close', (code)=>{
+    //     console.log(`child process exited with code ${code}`);
+    //     next();
+    // });
 
 },
 
