@@ -104,8 +104,8 @@ router.post('/update-model',
 // weightUpload.single('weight'),
 
 /** Validators */
-verifyUserToken,
-verifyAdmin,
+// verifyUserToken,
+// verifyAdmin,
 
 function convertToTensorflow(req, res, next){
 
