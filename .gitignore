@@ -15,3 +15,5 @@
 
 /ai_backend/weights/*
 !/ai_backend/weights/README.md
+
+/ai_backend/core/__pycache__/*
