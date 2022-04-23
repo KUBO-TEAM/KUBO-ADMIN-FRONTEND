@@ -103,10 +103,6 @@ weightUpload.single('weight'),
 verifyUserToken,
 verifyAdmin,
 
-// function test(req, res){
-//     console.log('Testing purpose');
-//     res.send({message: 'Testing purpose'});
-// },
 
 function convertToTensorflow(req, res, next){
 
