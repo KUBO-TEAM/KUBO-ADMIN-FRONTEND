@@ -31,8 +31,8 @@ router.post('/detect',
 upload.single('image'),
 
 /** Validators */
-verifyUserToken,
-verifyAdmin,
+// verifyUserToken,
+// verifyAdmin,
 
 detect =(req, res)=>{
 
@@ -71,9 +71,13 @@ detect =(req, res)=>{
     
     detect.on('close', (code)=>{
         console.log(`child process exited with code ${code}`);
+
         res.send({
             message: 'Successfully detect ingredients',
-            imageUrl,
+            data: {
+                imageUrl,
+                ingredients : ['test'],
+            },
         });
     });
 
