@@ -84,6 +84,25 @@ async function getAllRecipe(req, res){
 
 );
 
+/** Filter recipe by category */
+router.post('/filter',
+
+async function filterByIngredients(req, res){
+  const {body} = req;
+
+
+  const recipes = await Recipe.find({ categories: { "$in" : body.categories} });
+
+  
+  res.send({
+    message: 'Successfully filter recipe!',
+    data: recipes
+  })
+
+},
+
+);
+
 /** Get single recipe */
 router.get('/:id',
 
@@ -366,5 +385,7 @@ async function deleteRecipeImage(req, res){
 }
 
 );
+
+
 
 module.exports = router;
