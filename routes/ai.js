@@ -58,7 +58,7 @@ detect =(req, res)=>{
     ]);
     
     
-    const imageUrl = `${req.protocol}://${req.get('host')}/ai_backend/results/${req.file.filename}`;
+    const imageUrl = `https://${req.get('host')}/ai_backend/results/${req.file.filename}`;
 
     detect.stdout.on('data', (data)=>{
         console.log(`stdout: ${data}`);
