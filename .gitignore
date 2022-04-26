@@ -1,4 +1,5 @@
 .env
+.venv
 /public/images/recipes/*
 !/public/images/recipes/README.md
 /node_modules
@@ -25,3 +26,4 @@
 !/ai_backend/weights/README.md
 
 /ai_backend/core/__pycache__/*
+.python-version
