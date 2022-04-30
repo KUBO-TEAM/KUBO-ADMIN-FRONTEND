@@ -106,10 +106,6 @@ async function filterByIngredients(req, res){
 /** Get single recipe */
 router.get('/:id',
 
-/** Validations */
-verifyUserToken,
-verifyAdmin,
-
 async function getRecipe(req, res){
 
   const _id = req.params.id;
