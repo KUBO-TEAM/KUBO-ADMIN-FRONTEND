@@ -12,11 +12,10 @@ function convertToTensorflow(user){
 
     const convertToTensorflow = spawn('python',[
         `./ai_backend/save_model.py`,
-        `--weights=./public/ai_backend/weights/yolov4-tiny.weights`,
-        `--output=./ai_backend/tensorflow/yolov4-tiny-416`,
+        `--weights=./public/ai_backend/weights/yolov4.weights`,
+        `--output=./ai_backend/tensorflow/yolov4`,
         `--input_size=416`,
         `--model=yolov4`,
-        `--tiny`,
         `--framework=tflite`,
     ]);
 
@@ -41,8 +40,8 @@ async function convertToTflite(user){
 
     const convertToTflite = spawn('python',[
         `./ai_backend/convert_tflite.py`,
-        `--weights=./ai_backend/tensorflow/yolov4-tiny-416`,
-        `--output=./ai_backend/tflite/yolov4-tiny-416.tflite`,
+        `--weights=./ai_backend/tensorflow/yolov4`,
+        `--output=./ai_backend/tflite/yolov4.tflite`,
     ]);
 
 
@@ -59,7 +58,7 @@ async function convertToTflite(user){
         const ai = new Ai({
             email : user.email,
             user_id : user._id,
-            model_name : 'yolov4-tiny-416',
+            model_name : 'yolov4',
         });
 
         await ai.save();

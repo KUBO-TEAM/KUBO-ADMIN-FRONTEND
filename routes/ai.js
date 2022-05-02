@@ -51,7 +51,7 @@ detect =(req, res)=>{
 
     const detect = spawn('python',[
         `./ai_backend/detect.py`,
-        `--weights=./ai_backend/tflite/yolov4-tiny-416.tflite`,
+        `--weights=./ai_backend/tflite/yolov4.tflite`,
         `--image=./public/ai_backend/uploads/${req.file.filename}`,
         `--output=./public/ai_backend/results/${req.file.filename}`,
         `--framework=tflite`,
@@ -91,7 +91,7 @@ let weightStorage = multer.diskStorage({
     },
   
     filename: function (req, file, cb) {
-      cb(null, "yolov4-tiny.weights");
+      cb(null, "yolov4.weights");
     },
 });
 
