@@ -6,7 +6,8 @@ const logger = require('morgan');
 
 const recipesRouter = require('./routes/recipes');
 const loginRouter = require('./routes/login');
-const aiRouter = require('./routes/ai');
+const yolov4Router = require('./routes/yolov4');
+const yolov4TinyRouter = require('./routes/yolov4-tiny');
 
 const app = express();
 
@@ -39,7 +40,9 @@ app.use(function(err, req, res, next) {
 
 app.use('/api/recipes', recipesRouter);
 app.use('/api/login', loginRouter);
-app.use('/api/ai', aiRouter);
+
+app.use('/api/yolov4', yolov4Router);
+app.use('/api/yolov4-tiny', yolov4TinyRouter);
 
 app.use(express.static(path.join(__dirname, 'public')));
 

@@ -3,21 +3,35 @@
 const { spawn } = require('child_process');
 const Ai = require('../models/ai.model');
 
-async function convertWeights(user){
-    convertToTensorflow(user);
+async function convertWeights({user, tiny}){
+    convertToTensorflow({user,tiny});
 }
  
 
-function convertToTensorflow(user){
-
-    const convertToTensorflow = spawn('python',[
+function convertToTensorflow({user,tiny}){
+    
+    let command = [
         `./ai_backend/save_model.py`,
         `--weights=./public/ai_backend/weights/yolov4.weights`,
         `--output=./ai_backend/tensorflow/yolov4`,
         `--input_size=416`,
         `--model=yolov4`,
         `--framework=tflite`,
-    ]);
+    ];
+
+    if(tiny){
+        command = [
+            `./ai_backend/save_model.py`,
+            `--weights=./public/ai_backend/weights/yolov4-tiny.weights`,
+            `--output=./ai_backend/tensorflow/yolov4-tiny`,
+            `--input_size=416`,
+            `--model=yolov4`,
+            `--tiny`,
+            `--framework=tflite`,
+        ];
+    }
+
+    const convertToTensorflow = spawn('python', command);
 
     convertToTensorflow.stdout.on('data', (data)=>{
         console.log(`stdout: ${data}`);
@@ -31,18 +45,29 @@ function convertToTensorflow(user){
     convertToTensorflow.on('close', (code)=>{
         console.log(`child process exited with code ${code}`);
 
-        convertToTflite(user);
+        convertToTflite({user, tiny});
     });
 
 }
 
-async function convertToTflite(user){
-
-    const convertToTflite = spawn('python',[
+async function convertToTflite({user,tiny}){
+    
+    let command = [
         `./ai_backend/convert_tflite.py`,
         `--weights=./ai_backend/tensorflow/yolov4`,
         `--output=./ai_backend/tflite/yolov4.tflite`,
-    ]);
+    ];
+
+    if(tiny){
+        command = [
+            `./ai_backend/convert_tflite.py`,
+        `--weights=./ai_backend/tensorflow/yolov4-tiny`,
+        `--output=./ai_backend/tflite/yolov4-tiny.tflite`,
+        ];
+    }
+
+
+    const convertToTflite = spawn('python', command);
 
 
     convertToTflite.stdout.on('data', (data)=>{
@@ -58,7 +83,7 @@ async function convertToTflite(user){
         const ai = new Ai({
             email : user.email,
             user_id : user._id,
-            model_name : 'yolov4',
+            model_name : tiny ? 'yolov4-tiny' : 'yolov4',
         });
 
         await ai.save();
