@@ -13,6 +13,7 @@ const recipeSchema = new mongoose.Schema(
 		servings: Number,
 
 		reference: String,
+		youtubeId: String,
 
 		displayPhoto: String,
 
