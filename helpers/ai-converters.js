@@ -2,6 +2,8 @@
 
 const { spawn } = require('child_process');
 const Ai = require('../models/ai.model');
+const { notify } = require('./notification');
+const moment = require('moment');
 
 async function convertWeights({user, tiny}){
     convertToTensorflow({user,tiny});
@@ -86,11 +88,16 @@ async function convertToTflite({user,tiny}){
             model_name : tiny ? 'yolov4-tiny' : 'yolov4',
         });
 
-        await ai.save();
+        const aiCreated = await ai.save();
 
         console.log(`child process exited with code ${code}`);
 
         console.log('Succesfully created the model!!');
+
+        notify({
+            title: 'Smart recipe selection has been improved!',
+            message: `As of ${moment(aiCreated.createdAt).format('MMMM Do YYYY, h:mm:ss a')} we updated the ai model`
+        });
     });
 
 }

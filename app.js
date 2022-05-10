@@ -8,6 +8,7 @@ const recipesRouter = require('./routes/recipes');
 const loginRouter = require('./routes/login');
 const yolov4Router = require('./routes/yolov4');
 const yolov4TinyRouter = require('./routes/yolov4-tiny');
+const notificationRouter = require('./routes/notification');
 
 const app = express();
 
@@ -43,6 +44,8 @@ app.use('/api/login', loginRouter);
 
 app.use('/api/yolov4', yolov4Router);
 app.use('/api/yolov4-tiny', yolov4TinyRouter);
+
+app.use('/api/notification', notificationRouter);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
