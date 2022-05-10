@@ -10,8 +10,8 @@ const router = express.Router();
 /** Get all notifications */
 router.get('/',
 
-async function getAllNotifications(){
-    const notifications = await Notification.find({});
+async function getAllNotifications(req, res){
+    const notifications = await Notification.find({}).sort({createdAt: -1});
 
     res.send({
         message: 'Succesfully fetch notifications',
