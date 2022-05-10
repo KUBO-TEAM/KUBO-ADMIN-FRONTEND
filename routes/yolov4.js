@@ -103,7 +103,6 @@ function test(req, res){
 
 );
 
-
 router.get('/latest-model',
 
 verifyUserToken,

@@ -1,62 +1,14 @@
 const express = require('express');
-const multer = require('multer');
 const Recipe = require('../models/recipe.model');
 const { verifyAdmin, verifyUserToken } = require('../helpers/validators');
-
 const { check, validationResult } = require('express-validator');
-
-const { Storage } = require('@google-cloud/storage');
-const dotenv = require('dotenv');
 const {format} = require('util');
-
-/** Google Cloud storage setup */
-dotenv.config();
-
-let bucket = null;
-
-if(process.env.GCLOUD_STORAGE_BUCKET){
-
-  const cloudStorage = new Storage({
-    projectId: process.env.GCLOUD_STORAGE_PROJECT_ID,
-    credentials:{
-      client_email: process.env.GCLOUD_STORAGE_CLIENT_EMAIL,
-      private_key: process.env.GCLOUD_STORAGE_PRIVATE_KEY.replace(/\\n/gm, '\n'),
-    }
-  });
-
-
-  bucket = cloudStorage.bucket(process.env.GCLOUD_STORAGE_BUCKET);
-}
-
 const fs = require('fs');
+const { recipeUpload, recipeBucket } = require('../helpers/recipe-storage');
+const { notify } = require('../helpers/notification');
+
 
 const router = express.Router();
-
-// Local Storage
-let storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'public/images/recipes');
-  },
-
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + ".png");
-  },
-});
-
-
-// Cloud Storage
-if(bucket){
-  storage = multer.memoryStorage();
-}
-
-const upload = multer({ 
-  storage : storage,
-
-  limits: {
-    fileSize: 5 * 1024 * 1024,
-  },
-
-});
 
 /** Get all the recipes */
 router.get('/',
@@ -134,7 +86,7 @@ async function getRecipe(req, res){
 router.post('/', 
 
 /** Upload to this backend */
-upload.single('displayPhoto'),
+recipeUpload.single('displayPhoto'),
 
 /** Validations */
 check('name').not().isEmpty(),
@@ -164,8 +116,8 @@ verifyAdmin,
 
 async function uploadToCloud(req, res, next){
 
-  if(bucket){
-    const blob = bucket.file(Date.now() + '.png');
+  if(recipeBucket){
+    const blob = recipeBucket.file(Date.now() + '.png');
     const blobStream = blob.createWriteStream();  
     
     blobStream.on('error', err => {
@@ -175,7 +127,7 @@ async function uploadToCloud(req, res, next){
     blobStream.on('finish', () => {
       // The public URL can be used to directly access the file via HTTP.
       const publicUrl = format(
-        `https://storage.googleapis.com/${bucket.name}/${blob.name}`
+        `https://storage.googleapis.com/${recipeBucket.name}/${blob.name}`
       );
   
       req.fileUrl = publicUrl;
@@ -210,6 +162,12 @@ async function createRecipe(req, res){
 
 	const createdRecipe = await newRecipe.save();
 
+  await notify({
+    title: 'New recipe is added!',
+    message: `${createdRecipe.name}`,
+    recipe_id: createdRecipe._id,
+  });
+
 	res.send({
 		message: 'Successfully upload image!',
 		data: createdRecipe,
@@ -226,7 +184,6 @@ router.delete('/:id',
 verifyUserToken,
 verifyAdmin,
 
-
 async function deleteRecipe(req, res){
   const { id } = req.params;
 
@@ -235,11 +192,11 @@ async function deleteRecipe(req, res){
     const fileName = recipe.displayPhoto.substring(recipe.displayPhoto.lastIndexOf('/') + 1 );
     const displayPhoto = `public/images/recipes/${fileName}`;
 
-    if(bucket){
-      const file = bucket.file(fileName);
+    if(recipeBucket){
+      const file = recipeBucket.file(fileName);
 
       file.exists().then(function(data) {
-          bucket.file(fileName).delete();
+          recipeBucket.file(fileName).delete();
       });
 
     }else{
@@ -250,6 +207,11 @@ async function deleteRecipe(req, res){
       });
     }
 
+    await notify({
+      title: 'We delete this recipe',
+      message: `${recipe.name} has been deleted.`,
+      recipe_id: recipe._id,
+    });
 
     res.send({
       message: 'Delete successfully',
@@ -268,7 +230,7 @@ async function deleteRecipe(req, res){
 router.put('/:id',
 
 /** Upload to this backend */
-upload.single('displayPhoto'),
+recipeUpload.single('displayPhoto'),
 
 /** Validations */
 check('name').not().isEmpty(),
@@ -312,6 +274,13 @@ async function updateRecipe(req, res, next){
 
   if(recipe){
     req.recipe = recipe;
+    
+    await notify({
+      title: 'A recipe has been updated',
+      message: `${recipe.name}`,
+      recipe_id: recipe._id,
+    });
+
     next();
   }else{
     res.status(400).send({
@@ -326,10 +295,10 @@ async function deleteRecipeImage(req, res){
     const fileName = recipe.displayPhoto.substring(recipe.displayPhoto.lastIndexOf('/') + 1 );
     const displayPhoto = `public/images/recipes/${fileName}`;
 
-    if(bucket){
-      bucket.file(fileName).delete();
+    if(recipeBucket){
+      recipeBucket.file(fileName).delete();
       
-      const blob = bucket.file(Date.now() + '.png');
+      const blob = recipeBucket.file(Date.now() + '.png');
       const blobStream = blob.createWriteStream();
       
       blobStream.on('error', err => {
@@ -341,7 +310,7 @@ async function deleteRecipeImage(req, res){
       blobStream.on('finish', async () => {
         // The public URL can be used to directly access the file via HTTP.
         const publicUrl = format(
-          `https://storage.googleapis.com/${bucket.name}/${blob.name}`
+          `https://storage.googleapis.com/${recipeBucket.name}/${blob.name}`
         );
     
         req.recipe.displayPhoto = publicUrl;
@@ -364,6 +333,11 @@ async function deleteRecipeImage(req, res){
           await req.recipe.save();
         }
       });
+    await notify({
+      title: 'We delete this recipe',
+      message: `${createdRecipe.name}`,
+      recipe_id: createdRecipe._id,
+    });
       
       res.send({
         message: 'Successfully update user'
@@ -381,7 +355,5 @@ async function deleteRecipeImage(req, res){
 }
 
 );
-
-
 
 module.exports = router;
