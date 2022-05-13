@@ -9,8 +9,12 @@ const loginRouter = require('./routes/login');
 const yolov4Router = require('./routes/yolov4');
 const yolov4TinyRouter = require('./routes/yolov4-tiny');
 const notificationRouter = require('./routes/notification');
+const indexRouter = require('./routes/index');
 
 const app = express();
+
+app.set('views', __dirname + '/views');
+app.engine('html', require('ejs').renderFile);
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -39,6 +43,7 @@ app.use(function(err, req, res, next) {
   console.error(err.stack);
 });
 
+app.use('/', indexRouter);
 app.use('/api/recipes', recipesRouter);
 app.use('/api/login', loginRouter);
 
@@ -49,8 +54,8 @@ app.use('/api/notification', notificationRouter);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+// app.get('/*', function (req, res) {
+//   res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// });
 
 module.exports = app;

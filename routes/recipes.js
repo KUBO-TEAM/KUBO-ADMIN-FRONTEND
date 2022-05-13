@@ -333,11 +333,6 @@ async function deleteRecipeImage(req, res){
           await req.recipe.save();
         }
       });
-    await notify({
-      title: 'We delete this recipe',
-      message: `${createdRecipe.name}`,
-      recipe_id: createdRecipe._id,
-    });
       
       res.send({
         message: 'Successfully update user'
