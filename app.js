@@ -54,8 +54,8 @@ app.use('/api/notification', notificationRouter);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.get('/*', function (req, res) {
-//   res.sendFile(path.join(__dirname, 'public', 'index.html'));
-// });
+app.get('/*', function (req, res) {
+  res.render('index.html');
+});
 
 module.exports = app;
