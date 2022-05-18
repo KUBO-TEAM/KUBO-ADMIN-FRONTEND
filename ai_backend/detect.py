@@ -12,6 +12,7 @@ import cv2
 import numpy as np
 from tensorflow.compat.v1 import ConfigProto
 from tensorflow.compat.v1 import InteractiveSession
+import json
 
 flags.DEFINE_string('framework', 'tf', '(tf, tflite, trt')
 flags.DEFINE_string('weights', './checkpoints/yolov4-416',
@@ -50,8 +51,8 @@ def main(_argv):
         interpreter.allocate_tensors()
         input_details = interpreter.get_input_details()
         output_details = interpreter.get_output_details()
-        print(input_details)
-        print(output_details)
+        # print(input_details)
+        # print(output_details)
         interpreter.set_tensor(input_details[0]['index'], images_data)
         interpreter.invoke()
         pred = [interpreter.get_tensor(output_details[i]['index']) for i in range(len(output_details))]
@@ -77,6 +78,7 @@ def main(_argv):
         iou_threshold=FLAGS.iou,
         score_threshold=FLAGS.score
     )
+    
     pred_bbox = [boxes.numpy(), scores.numpy(), classes.numpy(), valid_detections.numpy()]
     image = utils.draw_bbox(original_image, pred_bbox)
     # image = utils.draw_bbox(image_data*255, pred_bbox)
@@ -84,6 +86,13 @@ def main(_argv):
     # image.show()
     image = cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
     cv2.imwrite(FLAGS.output, image)
+    
+    detected_info = {
+        "classes" :  classes.numpy().tolist()[0],
+        "scores" : scores.numpy().tolist()[0],
+    }
+    
+    print(json.dumps(detected_info))
 
 if __name__ == '__main__':
     try:
