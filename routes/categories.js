@@ -13,13 +13,17 @@ function getDetectedCategories({data, imageUrl}){
 
         const content = fs.readFileSync("ai_backend/data/classes/kubo.names");
         const kuboClasses = content.toString().split("\r\n");
+        console.log('DATA: '+ scores);
 
-        const categories = sliceClassesIndex.map((val, index) => ({
-            "name" : kuboClasses[val],
-            "accuracy": trimmedScores[index],
-            "predictedAt": predictedAt,
-            "imageUrl": imageUrl,
-        }));
+        const categories = sliceClassesIndex.map((val, index) => {
+            console.log('TEST: '+ val);
+            return {
+                "name" : kuboClasses[val],
+                "accuracy": trimmedScores[index],
+                "predictedAt": predictedAt,
+                "imageUrl": imageUrl,
+            }
+        });
 
         return categories;
     }catch(e){
