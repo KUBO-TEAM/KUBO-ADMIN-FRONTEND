@@ -6,11 +6,6 @@ const multer = require('multer');
 const Ai = require('../models/ai.model');
 const { convertWeights } = require('../helpers/ai-converters');
 
-const fs = require("fs");
-const content = fs.readFileSync("ai_backend/data/classes/kubo.names");
-const kuboClasses = content.toString().split("\r\n");
-
-
 dotenv.config();
 
 const router = express.Router();
@@ -66,27 +61,15 @@ detect =(req, res)=>{
     const imageUrl = `${process.env.REQUEST_PROTOCOL || 'http' }://${process.env.REQUEST_BASE_URL || req.get('host')}/ai_backend/results/${req.file.filename}`;
 
     detect.stdout.on('data', (data)=>{
-        try{
-            const {scores, classes} = JSON.parse(data);
-            const trimmedScores = scores.filter(val => val != 0);
-            const sliceClassesIndex = classes.slice(0, trimmedScores.length);
-            const categories = sliceClassesIndex.map((val, index) => ({
-                "name" : kuboClasses[val],
-                "accurracy": trimmedScores[index],
-            }));
-            
-
-            res.send({
-                message: 'Successfully detect ingredients',
-                data: {
-                    imageUrl,
-                    categories,
-                },
-            });
-
-        }catch(e){
-            console.log('Not parsable to json');
-        }
+        const categories = getDetectedCategories({data, imageUrl});
+       
+        res.send({
+            message: 'Successfully detect ingredients',
+            data: {
+                imageUrl,
+                categories,
+            },
+        });
     });
 
     detect.stderr.on('data', (data)=>{
