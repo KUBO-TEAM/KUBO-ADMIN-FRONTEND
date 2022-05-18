@@ -11,11 +11,11 @@ function getDetectedCategories({data, imageUrl}){
 
         const predictedAt = moment();
 
-        const content = fs.readFileSync("ai_backend/data/classes/kubo.names");
-        const kuboClasses = content.toString().split("\r\n");
+        const content = fs.readFileSync("ai_backend/data/classes/kubo.names", 'utf-8');
+        const kuboClasses = content.toString().split("\n");
 
-        console.log(kuboClasses.length);
-        
+        console.log(kuboClasses);
+
         const categories = sliceClassesIndex.map((val, index) => {
             console.log('TEST: '+ val);
             return {
