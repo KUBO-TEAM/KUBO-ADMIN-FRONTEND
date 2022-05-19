@@ -14,8 +14,6 @@ function getDetectedCategories({data, imageUrl}){
         const content = fs.readFileSync("ai_backend/data/classes/kubo.names", 'utf-8');
         const kuboClasses = content.toString().split("\n");
 
-        console.log(kuboClasses);
-
         const categories = sliceClassesIndex.map((val, index) => {
             console.log('TEST: '+ val);
             return {

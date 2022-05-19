@@ -144,11 +144,11 @@ def draw_bbox(image, bboxes, classes=read_class_names(cfg.YOLO.CLASSES), show_la
         coor[1] = int(coor[1] * image_w)
         coor[3] = int(coor[3] * image_w)
 
-        fontScale = 0.5
+        fontScale = 0.5 * (image_h + image_w) / 700
         score = out_scores[0][i]
         class_ind = int(out_classes[0][i])
         bbox_color = colors[class_ind]
-        bbox_thick = int(0.6 * (image_h + image_w) / 600)
+        bbox_thick = int(0.6 * (image_h + image_w) / 200)
         c1, c2 = (coor[1], coor[0]), (coor[3], coor[2])
         cv2.rectangle(image, c1, c2, bbox_color, bbox_thick)
 
