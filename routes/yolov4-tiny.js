@@ -5,6 +5,7 @@ const { verifyAdmin, verifyUserToken } = require('../helpers/validators');
 const multer = require('multer');
 const Ai = require('../models/ai.model');
 const { convertWeights } = require('../helpers/ai-converters');
+const moment = require('moment');
 
 dotenv.config();
 
@@ -61,13 +62,15 @@ detect =(req, res)=>{
     const imageUrl = `${process.env.REQUEST_PROTOCOL || 'http' }://${process.env.REQUEST_BASE_URL || req.get('host')}/ai_backend/results/${req.file.filename}`;
 
     detect.stdout.on('data', (data)=>{
-        const categories = getDetectedCategories({data, imageUrl});
+        const predictedAt = moment();
+        const categories = getDetectedCategories({data, imageUrl, predictedAt});
        
         res.send({
             message: 'Successfully detect ingredients',
             data: {
                 imageUrl,
                 categories,
+                predictedAt,
             },
         });
     });
