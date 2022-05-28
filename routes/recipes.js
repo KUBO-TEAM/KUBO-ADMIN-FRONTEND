@@ -41,10 +41,16 @@ router.post('/filter',
 
 async function filterByIngredients(req, res){
   const {body} = req;
+  
+  const categoriesArrayJson = body.categories;
 
+  const categoriesNames = []; 
 
-  const recipes = await Recipe.find({ categories: { "$in" : body.categories} });
+  for(let i = 0; i < categoriesArrayJson.length; i++){
+    categoriesNames.push(categoriesArrayJson[i].name);
+  }
 
+  const recipes = await Recipe.find({ categories: { "$in" : categoriesNames} });
   
   res.send({
     message: 'Successfully filter recipe!',

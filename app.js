@@ -10,6 +10,7 @@ const yolov4Router = require('./routes/yolov4');
 const yolov4TinyRouter = require('./routes/yolov4-tiny');
 const notificationRouter = require('./routes/notification');
 const indexRouter = require('./routes/index');
+const generateScheduleRouter = require('./routes/generate-schedule');
 
 const app = express();
 
@@ -46,6 +47,8 @@ app.use(function(err, req, res, next) {
 app.use('/', indexRouter);
 app.use('/api/recipes', recipesRouter);
 app.use('/api/login', loginRouter);
+
+app.use('/api/generate-schedule', generateScheduleRouter);
 
 app.use('/api/yolov4', yolov4Router);
 app.use('/api/yolov4-tiny', yolov4TinyRouter);
