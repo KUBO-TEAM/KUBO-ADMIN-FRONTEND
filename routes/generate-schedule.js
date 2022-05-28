@@ -24,18 +24,18 @@ async function generateSchedule(req, res){
     const daysToSchedule = 3;
     const time = [
         {
-            'hours' :  13,
+            'hours' :  12,
             'minutes' : 0,
         },
         {
-            'hours' :  19,
+            'hours' :  18,
             'minutes' : 0,
         }
     ];
 
-    const originalClientTime = moment(clientCurrentTime);
-    const incrementalTime = moment(clientCurrentTime);
-    const createdAt = moment();
+    const originalClientTime = moment.utc(clientCurrentTime);
+    const incrementalTime = moment.utc(clientCurrentTime);
+    const createdAt = moment.utc(clientCurrentTime);
     
     let recipeCounter = 0;
 
@@ -53,11 +53,10 @@ async function generateSchedule(req, res){
 
                 const recipeSchedule = {
                     recipe : recipes[recipeCounter],
-                    start : incrementalTime.add(1, 'hours').format(),
+                    start : incrementalTime.format(),
                     end : incrementalTime.add(1, 'hours').format(),
                     createdAt : createdAt.format(),
                 }; 
-
                 recipeSchedules.push(recipeSchedule);
                 recipeCounter++;
             }
