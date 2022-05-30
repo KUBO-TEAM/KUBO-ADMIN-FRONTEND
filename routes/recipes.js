@@ -10,6 +10,20 @@ const { notify } = require('../helpers/notification');
 
 const router = express.Router();
 
+/** Get latest recipe */
+router.get('/get-latest-recipe', 
+
+async function getLatestRecipe(req, res){
+
+  const recipe = await  await Recipe.findOne().sort({createdAt: -1});
+
+  res.send({
+    message:'Successfully fetch latest recipe',
+    data: recipe,
+  });
+}
+
+);
 /** Get all the recipes */
 router.get('/',
 
