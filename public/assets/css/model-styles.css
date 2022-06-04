@@ -11,8 +11,17 @@
   justify-content: space-between;
 }
 
+#YoloV4 .detected .image-box .predicted-image,
+#YoloV4Tiny .detected .image-box .predicted-image
+{
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  border-radius: 5px;
+}
+
 #detect-image-button{
-  padding: 0 16px 0 16px;
+  padding: 8px 16px 8px 16px;
 }
 
 .raw,
@@ -70,9 +79,9 @@
     color:white;
 }
 
-.image-box img{
+.image-box .raw-image{
   height: 100%;
   width: 100%;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 5px;
 }

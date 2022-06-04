@@ -10,6 +10,7 @@
     <title>KUBO</title>
 
     <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+    
 
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="assets/css/model-styles.css" rel="stylesheet" />
@@ -29,10 +30,13 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
+    
+    
 
 </head>
 
 <body>
+    
 
     <!-- Preloader Start -->
     <div class="se-pre-con"></div>
@@ -167,7 +171,11 @@
         <div class="title">
             <h3>YoloV4</h3>
 
-            <button id="detect-image-button">Detect now!</button>
+            <!-- <div id="try-again-wrapper">
+
+
+            </div> -->
+
         </div>
         <section class="row">
 
@@ -178,22 +186,43 @@
                     <h6>Drag & Drop File Here</h6>
                     <span>OR</span>
                     <button>Browse Image</button>
-                    <input type="file" class="hidden">
+                    <input type="file" class="hidden" data-model="yolov4">
                 </div>    
             </div>
 
             <div class="detected col-lg-6 col-md-12">
                 <div class="image-box">
-
                 </div>
             </div>
         </section>
     </div>
       
     <div id="YoloV4Tiny" class="tabcontent">
-        <h3>YoloV4 Tiny</h3>
-        <section>
-            
+        <div class="title">
+            <h3>YoloV4 Tiny</h3>
+
+            <!-- <div id="try-again-wrapper">
+
+            </div> -->
+
+        </div>
+        <section class="row">
+
+
+            <div class="raw col-lg-6 col-md-12">
+                <div class="image-box">
+                    <div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                    <h6>Drag & Drop File Here</h6>
+                    <span>OR</span>
+                    <button>Browse Image</button>
+                    <input type="file" class="hidden" data-model="yolov4-tiny">
+                </div>    
+            </div>
+
+            <div class="detected col-lg-6 col-md-12">
+                <div class="image-box">
+                </div>
+            </div>
         </section>
     </div>
     <!-- End Tabs -->
