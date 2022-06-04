@@ -4,6 +4,24 @@ const moment = require('moment');
 
 const router = express.Router();
 
+function shuffle(array) {
+    let currentIndex = array.length,  randomIndex;
+  
+    // While there remain elements to shuffle.
+    while (currentIndex != 0) {
+  
+      // Pick a remaining element.
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+  
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+  
+    return array;
+  }
+
 router.post('/',
 
 async function generateSchedule(req, res){
@@ -17,12 +35,16 @@ async function generateSchedule(req, res){
         categoriesNames.push(categoriesArrayJson[i].name);
     }
 
-    const recipes = await Recipe.find({ categories: { "$in" : categoriesNames} });
+    let recipes = await Recipe.find({ categories: { "$in" : categoriesNames} });
 
     const recipeSchedules = [];
 
     const daysToSchedule = 3;
     const time = [
+        {
+            'hours' :  7,
+            'minutes' : 0,
+        },
         {
             'hours' :  12,
             'minutes' : 0,
@@ -36,6 +58,8 @@ async function generateSchedule(req, res){
     const originalClientTime = moment.utc(clientCurrentTime);
     const incrementalTime = moment.utc(clientCurrentTime);
     const createdAt = moment.utc(clientCurrentTime);
+
+    recipes = shuffle(recipes);
     
     let recipeCounter = 0;
 
