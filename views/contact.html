@@ -27,6 +27,8 @@
 
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700&display=swap" rel="stylesheet">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.min.css" integrity="sha256-vi0IHEWWjH+X+5ImyV6kj/fBMFzSTz4uPlUjRhRTuDQ=" crossorigin="anonymous">
 
 </head>
 
@@ -169,11 +171,11 @@
                         <p>
                             We know our app is not yet perfect. Don't be shy and share your thoughts with us. 
                         </p>
-                        <form action="assets/mail/contact.php" method="POST" class="contact-form">
+                        <form id="feedback-form" method="POST" class="contact-form">
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="form-group">
-                                        <input class="form-control" id="name" name="name" placeholder="Name" type="text">
+                                        <input required class="form-control" id="name" name="name" placeholder="Name" type="text">
                                         <span class="alert-error"></span>
                                     </div>
                                 </div>
@@ -181,13 +183,13 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <input class="form-control" id="email" name="email" placeholder="Email*" type="email">
+                                        <input required class="form-control" id="email" name="email" placeholder="Email*" type="email">
                                         <span class="alert-error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <input class="form-control" id="phone" name="phone" placeholder="Phone" type="text">
+                                        <input  required class="form-control" id="phone" name="phone" placeholder="Phone" type="text">
                                         <span class="alert-error"></span>
                                     </div>
                                 </div>
@@ -195,7 +197,7 @@
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="form-group comments">
-                                        <textarea class="form-control" id="comments" name="comments" placeholder="Tell us your opinions *"></textarea>
+                                        <textarea  required class="form-control" id="comments" name="comments" placeholder="Tell us your opinions *"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -205,10 +207,6 @@
                                         Send Message <i class="fa fa-paper-plane"></i>
                                     </button>
                                 </div>
-                            </div>
-                            <!-- Alert Message -->
-                            <div class="col-md-12 alert-notification">
-                                <div id="message" class="alert-msg"></div>
                             </div>
                         </form>
                     </div>
@@ -298,6 +296,8 @@
         <!-- End Footer Bottom -->
     </footer>
     <!-- End Footer-->
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.all.min.js" integrity="sha256-RhRrbx+dLJ7yhikmlbEyQjEaFMSutv6AzLv3m6mQ6PQ=" crossorigin="anonymous"></script>
 
     <!-- jQuery
     ============================================= -->
@@ -318,6 +318,7 @@
     <script src="assets/js/circle-progress.js"></script>
     <script src="assets/js/bootsnav.js"></script>
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/contact.js"></script>
 
 </body>
 </html>

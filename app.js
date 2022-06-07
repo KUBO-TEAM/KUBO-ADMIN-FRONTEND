@@ -11,6 +11,7 @@ const yolov4TinyRouter = require('./routes/yolov4-tiny');
 const notificationRouter = require('./routes/notification');
 const indexRouter = require('./routes/index');
 const generateScheduleRouter = require('./routes/generate-schedule');
+const feedbacksRouter = require('./routes/feedbacks');
 
 const app = express();
 
@@ -54,6 +55,8 @@ app.use('/api/yolov4', yolov4Router);
 app.use('/api/yolov4-tiny', yolov4TinyRouter);
 
 app.use('/api/notification', notificationRouter);
+
+app.use('/api/feedbacks', feedbacksRouter);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
